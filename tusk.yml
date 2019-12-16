@@ -1,0 +1,22 @@
+tasks:
+  build:
+    usage: Build and push docker image
+    args:
+      env:
+        usage: Environment
+        values:
+          - dev
+          - pro
+          - aws
+    run:
+      command:
+        exec: ./build.sh api ${env}
+        dir: ../
+
+  fmt:
+    usage: Format code
+    run: go mod tidy && goimports -w .
+
+  tag:
+    usage: Auto tag
+    run: ./hack/tag.sh
