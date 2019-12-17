@@ -34,6 +34,7 @@ func Init(debug bool, pretty bool, additionalWriters ...io.Writer) {
 	log.Logger = loggerWithoutCaller.With().Caller().Logger()
 }
 
+// WithoutCaller return a clone logger without caller field
 func WithoutCaller() zerolog.Logger {
 	return loggerWithoutCaller
 }
