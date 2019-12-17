@@ -3,9 +3,15 @@ package logger
 import (
 	"io"
 	"os"
+	"sync"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+)
+
+var (
+	loggerWithoutCaller = zerolog.Nop()
+	once                sync.Once
 )
 
 func Init(debug bool, pretty bool, additionalWriters ...io.Writer) {
@@ -22,5 +28,12 @@ func Init(debug bool, pretty bool, additionalWriters ...io.Writer) {
 		additionalWriters = append(additionalWriters, os.Stderr)
 	}
 
-	log.Logger = log.Output(zerolog.MultiLevelWriter(additionalWriters...)).With().Caller().Logger()
+	once.Do(func() {
+		loggerWithoutCaller = log.Output(zerolog.MultiLevelWriter(additionalWriters...))
+	})
+	log.Logger = loggerWithoutCaller.With().Caller().Logger()
+}
+
+func WithoutCaller() zerolog.Logger {
+	return loggerWithoutCaller
 }
