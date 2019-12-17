@@ -1,4 +1,4 @@
-module github.com/verichains/go
+module github.com/psucodervn/go
 
 go 1.13.5
 
