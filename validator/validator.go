@@ -19,6 +19,16 @@ type Error struct {
 	Text  string      `json:"text,omitempty"`
 }
 
+type Errors []Error
+
+func (errs Errors) Error() string {
+	var es []string
+	for _, e := range errs {
+		es = append(es, e.Text)
+	}
+	return strings.Join(es, ", ")
+}
+
 func NewStructValidator() *StructValidator {
 	v := validator.New()
 	v.RegisterTagNameFunc(func(fld reflect.StructField) string {
@@ -31,7 +41,7 @@ func NewStructValidator() *StructValidator {
 	return &StructValidator{validator: v}
 }
 
-func (v *StructValidator) Validate(i interface{}) []Error {
+func (v *StructValidator) Validate(i interface{}) error {
 	err := v.validator.Struct(i)
 	if err == nil {
 		return nil
@@ -42,7 +52,7 @@ func (v *StructValidator) Validate(i interface{}) []Error {
 		return nil
 	}
 
-	var errs []Error
+	var errs Errors
 	for _, e := range valErrors {
 		errs = append(errs, Error{
 			Field: e.Namespace(),
