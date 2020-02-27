@@ -1,6 +1,6 @@
 module github.com/psucodervn/go
 
-go 1.13.5
+go 1.14
 
 require (
 	github.com/go-playground/validator/v10 v10.0.1
