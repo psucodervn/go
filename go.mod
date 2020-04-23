@@ -5,6 +5,7 @@ go 1.14
 require (
 	github.com/go-playground/validator/v10 v10.0.1
 	github.com/go-resty/resty/v2 v2.1.0
+	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/labstack/echo/v4 v4.1.11
 	github.com/prometheus/client_golang v1.5.1
 	github.com/rs/xid v1.2.1

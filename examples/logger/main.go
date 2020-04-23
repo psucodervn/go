@@ -1,11 +1,13 @@
 package main
 
 import (
-	"github.com/labstack/echo/v4"
-	"github.com/psucodervn/go/logger"
-	"github.com/rs/zerolog/log"
 	"net/http"
 	"strings"
+
+	"github.com/labstack/echo/v4"
+	"github.com/rs/zerolog/log"
+
+	"github.com/psucodervn/go/logger"
 )
 
 func main() {

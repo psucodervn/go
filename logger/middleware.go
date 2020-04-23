@@ -2,8 +2,9 @@ package logger
 
 import (
 	"context"
-	"github.com/rs/xid"
 	"time"
+
+	"github.com/rs/xid"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

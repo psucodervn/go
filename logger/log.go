@@ -1,10 +1,12 @@
 package logger
 
 import (
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 	"io"
 	"os"
+
+	"github.com/kelseyhightower/envconfig"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 var (
@@ -27,6 +29,17 @@ func Init(debug bool, pretty bool, additionalWriters ...io.Writer) {
 
 	loggerWithoutCaller = log.Output(zerolog.MultiLevelWriter(additionalWriters...))
 	log.Logger = loggerWithoutCaller.With().Caller().Logger()
+}
+
+func InitWithConfig(cfg Config) {
+	slackWriter := NewSlackWriter(cfg.SlackWebhookURL, cfg.SlackUsername, zerolog.ErrorLevel)
+	Init(cfg.Debug, cfg.Pretty, slackWriter)
+}
+
+func InitFromEnv() {
+	var cfg Config
+	envconfig.MustProcess("LOG", &cfg)
+	InitWithConfig(cfg)
 }
 
 // WithoutCaller return a clone logger without caller field
