@@ -9,7 +9,7 @@ import (
 )
 
 type StructValidator struct {
-	validator *validator.Validate
+	validate *validator.Validate
 }
 
 type Error struct {
@@ -38,11 +38,11 @@ func NewStructValidator() *StructValidator {
 		}
 		return name
 	})
-	return &StructValidator{validator: v}
+	return &StructValidator{validate: v}
 }
 
 func (v *StructValidator) Validate(i interface{}) error {
-	err := v.validator.Struct(i)
+	err := v.validate.Struct(i)
 	if err == nil {
 		return nil
 	}
@@ -53,13 +53,30 @@ func (v *StructValidator) Validate(i interface{}) error {
 	}
 
 	var errs Errors
+	typ := reflect.TypeOf(i)
+	stripPrefix := len(typ.Name()) > 0
 	for _, e := range valErrors {
+		ns := e.Namespace()
+		if stripPrefix {
+			i := strings.IndexRune(ns, '.')
+			if i >= 0 {
+				ns = ns[i+1:]
+			}
+		}
 		errs = append(errs, Error{
-			Field: e.Namespace(),
+			Field: ns,
 			Rule:  e.Tag(),
 			Value: e.Value(),
-			Text:  fmt.Sprintf("%s failed on tag %s", e.Namespace(), e.Tag()),
+			Text:  fmt.Sprintf("%s failed on tag %s", ns, e.Tag()),
 		})
 	}
 	return errs
+}
+
+func (v *StructValidator) GetValidate() *validator.Validate {
+	return v.validate
+}
+
+func (v *StructValidator) Register(fn func(vl *validator.Validate) error) error {
+	return fn(v.validate)
 }
