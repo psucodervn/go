@@ -29,7 +29,7 @@ func (s *SlackWriter) Write(p []byte) (n int, err error) {
 	_ = json.Unmarshal(p, &e)
 	_, _ = s.client.R().
 		SetBody(map[string]interface{}{
-			"text":     fmt.Sprintf("%s: %s\n```%s```", e.Message, e.Error, string(p)),
+			"text":     fmt.Sprintf("%s: %s\n`%s`", e.Message, e.Error, string(p)),
 			"username": s.username,
 		}).
 		Post(s.webhookURL)

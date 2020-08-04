@@ -10,9 +10,12 @@ import (
 	"github.com/psucodervn/go/logger"
 )
 
-func main() {
-	logger.Init(true, false)
+func init() {
+	logger.InitFromEnv()
+	log.Error().Msg("init")
+}
 
+func main() {
 	e := echo.New()
 	e.HideBanner = true
 
