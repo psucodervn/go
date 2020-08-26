@@ -49,7 +49,7 @@ func EchoMiddleware(skipper middleware.Skipper) echo.MiddlewareFunc {
 			}
 			stop := time.Now()
 
-			l.Info().
+			l.Debug().
 				Str("ip", c.RealIP()).
 				Str("method", req.Method).
 				Str("uri", req.RequestURI).

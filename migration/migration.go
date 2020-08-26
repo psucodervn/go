@@ -3,8 +3,8 @@ package migration
 import (
 	"regexp"
 
-	"github.com/go-pg/migrations/v7"
-	"github.com/go-pg/pg/v9"
+	"github.com/go-pg/migrations/v8"
+	"github.com/go-pg/pg/v10"
 	"github.com/rs/zerolog/log"
 )
 

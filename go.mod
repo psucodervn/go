@@ -3,8 +3,8 @@ module github.com/psucodervn/go
 go 1.14
 
 require (
-	github.com/go-pg/migrations/v7 v7.1.11
-	github.com/go-pg/pg/v9 v9.1.6
+	github.com/go-pg/migrations/v8 v8.0.0-beta.1
+	github.com/go-pg/pg/v10 v10.0.0-beta.9
 	github.com/go-playground/validator/v10 v10.0.1
 	github.com/go-resty/resty/v2 v2.1.0
 	github.com/kelseyhightower/envconfig v1.4.0
